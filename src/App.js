@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import NavBar from "./components/NavBar";
+import Box from "./components/Box";
+import { tempMovieData } from "./components/StaticData";
+import { NumOfResult } from "./components/NavBar";
+import { MoviesList } from "./components/MoviesBox";
+import { WatchedMoviesList, MoviesSummary } from "./components/WatchedBox";
+import { tempWatchedData } from "./components/StaticData";
 
-function App() {
+export default function App() {
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <NavBar>
+        <NumOfResult movies={movies} />
+      </NavBar>
+      <Main>
+        <Box>
+          <MoviesList movies={movies} />
+        </Box>
+
+        <Box>
+          <MoviesSummary watched={watched} />
+          <WatchedMoviesList watched={watched} />
+        </Box>
+      </Main>
+    </>
   );
 }
 
-export default App;
+function Main({ children }) {
+  return <main className="main">{children}</main>;
+}
